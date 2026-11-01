@@ -159,6 +159,9 @@ def write_urdf():
     root, links, joints = read_arm()
     robot = ET.Element("robot", name="xarm7_window_head")
     ET.SubElement(robot, "material", name="head_orange").append(ET.Element("color", rgba="0.85 0.55 0.15 1"))
+    # the vendor arm visuals reference these by name only; declare them so the URDF is standalone
+    ET.SubElement(robot, "material", name="White").append(ET.Element("color", rgba="1 1 1 1"))
+    ET.SubElement(robot, "material", name="Silver").append(ET.Element("color", rgba="0.753 0.753 0.753 1"))
     for ln in ARM_LINKS:
         l = ET.fromstring(ET.tostring(links[ln]))
         for m in l.iter("mesh"):
@@ -272,7 +275,8 @@ def build_robot(parent_body, assets_added, h=HEAD):
         mj_geom(head, t, s, pos, R, rgba, name=f"head_{name}", **{"class": "head_col"})
     bl = ET.SubElement(head, "body", name="blade_holder")
     if h["compliance"]:
-        ET.SubElement(bl, "joint", name="blade_compliance", type="slide", axis="0 0 1",
+        # slide along the blade normal (the tilted z of the blade frame), not the head-frame z
+        ET.SubElement(bl, "joint", name="blade_compliance", type="slide", axis=fmt(frames["blade_tcp"][1][:, 2] + 0.0),
                       range=f"{-h['compliance_range']} {h['compliance_range']}",
                       stiffness=str(h["compliance_stiffness"]), damping=str(h["compliance_damping"]), springref="0")
     Mb, comb, Ib = combine(blade)
