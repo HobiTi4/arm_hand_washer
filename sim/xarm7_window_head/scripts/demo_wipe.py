@@ -3,7 +3,7 @@
 Sanity demo in MuJoCo: bring the squeegee to the glass, press with ~F_DES newtons using
 Cartesian impedance control (torque actuators), pull one vertical stroke, lift off.
 
-Prints contact-force statistics, joint-torque load vs bcr_core limits and frame collisions.
+Prints contact-force statistics, joint-torque load vs torque limits and frame collisions.
     python3 demo_wipe.py                 # headless, prints metrics, saves demo_log.npz
     python3 demo_wipe.py --view          # opens the MuJoCo viewer (needs a display), waits 5 s, then moves
     python3 demo_wipe.py --view --delay 2   # custom wait before the motion starts
@@ -154,7 +154,7 @@ def main():
     print(f"  contact lost in stroke: {np.mean(fn < 1.0) * 100:.1f}% of samples")
     print(f"  blade x deviation from glass plane: {np.ptp(L['pos'][st, 0]) * 1000:.1f} mm peak-to-peak")
     tau_ratio = np.max(np.abs(L["tau"][L["stroke"]]), axis=0) / TAU_LIMIT
-    print("  peak |tau| / bcr_core limit during stroke: " + "  ".join(f"j{i+1} {r*100:3.0f}%" for i, r in enumerate(tau_ratio)))
+    print("  peak |tau| / torque limit during stroke: " + "  ".join(f"j{i+1} {r*100:3.0f}%" for i, r in enumerate(tau_ratio)))
     print(f"  frame/sill contacts: {int(L['frame_hit'].sum())} samples")
     np.savez(os.path.join(HERE, "demo_log.npz"), **L)
     if viewer is not None: viewer.close()
