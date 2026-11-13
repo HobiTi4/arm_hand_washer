@@ -5,3 +5,5 @@ __pycache__/
 *.pyc
 # written by demo_wipe.py on every run
 demo_log.npz
+.pytest_cache/
+.ruff_cache/

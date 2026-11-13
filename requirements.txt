@@ -1,0 +1,6 @@
+mujoco>=3.1
+numpy
+matplotlib
+xarm-python-sdk
+pyrealsense2
+opencv-python-headless
