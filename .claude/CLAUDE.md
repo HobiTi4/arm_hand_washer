@@ -3,7 +3,7 @@
 Роборука (UFactory xArm7) для миття вікон. Мова документації й коментарів — українська.
 
 ## Середовище
-- Python venv: `.venv` (`pip install -r requirements-dev.txt`). Завжди запускай через `.venv/bin/python`.
+- Python venv: `.venv` (`pip install -r requirements-dev.txt`; `requirements.lock` — pinned versions for the Docker image, regenerate it when `requirements.txt` changes). Завжди запускай через `.venv/bin/python`.
 - ROS 2 Humble + MoveIt 2 + xarm_ros2 живуть у Docker: `docker compose -f docker/compose.yaml run --rm ros`.
 - Секрети (GitHub token) — у `.env`, не читати й не комітити.
 
