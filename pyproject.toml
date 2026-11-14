@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 140
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = ["E501", "E401", "E731", "B007", "E701", "E702", "E741"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:launch_ros -p no:launch_testing -p no:ament_lint -p no:ament_flake8 -p no:ament_pep257 -p no:ament_copyright -p no:ament_xmllint"

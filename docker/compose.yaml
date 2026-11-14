@@ -1,0 +1,19 @@
+services:
+  ros:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: arm_hand_washer/ros:humble
+    network_mode: host        # DDS і доступ до контролера xArm по Ethernet
+    volumes:
+      - ..:/project
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /mnt/wslg:/mnt/wslg   # WSLg (RViz у вікні)
+    environment:
+      - DISPLAY
+      - WAYLAND_DISPLAY
+      - XDG_RUNTIME_DIR
+      - PULSE_SERVER
+    stdin_open: true
+    tty: true
+    command: bash
