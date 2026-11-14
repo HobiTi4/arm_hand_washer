@@ -18,10 +18,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && colcon build --symlink-install
 
 COPY requirements.lock /tmp/requirements.lock
-RUN pip3 install --no-cache-dir --only-binary :all: -r /tmp/requirements.lock
 
-# Run as a non-root user; uid 1000 matches the usual host user so mounted files stay writable
-RUN useradd --create-home --uid 1000 dev \
+# Hash-pinned wheels only; then a non-root user (uid 1000 matches the usual host user so mounted files stay writable)
+RUN pip3 install --no-cache-dir --only-binary :all: --require-hashes -r /tmp/requirements.lock \
+    && useradd --create-home --uid 1000 dev \
     && chown -R dev:dev /ws \
     && echo 'source /opt/ros/humble/setup.bash; source /ws/install/setup.bash 2>/dev/null' >> /home/dev/.bashrc
 
